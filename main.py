@@ -1,26 +1,32 @@
 import tkinter
 import Planets
 from Planets import *
+import PlanetPhysics
 
-FPS = 30
+FPS = 1000
+print(400000000 / PlanetPhysics.PIXEL)
 
 tk = tkinter.Tk()
-tk.geometry('1000x1000')
-canvas = tkinter.Canvas(tk, width=1000, height=1000)
+tk.geometry('2000x2000')
+canvas = tkinter.Canvas(tk, width=2000, height=2000)
 
 
-canvas.create_oval(10, 10, 50, 50, fill='#00FF89')
+Planet(1000, 100, 50, 6 * 10 ** 24, canvas, velocity=[30000 * 1000 / PlanetPhysics.PIXEL, 0], isPhysic=True)
+Planet(1000, 100, 15, 7.35 * 10 ** 22, canvas, velocity=[30000 * 1000 / PlanetPhysics.PIXEL, -1000 * 1000 / 60 / 60 * 1060 / PlanetPhysics.PIXEL], isPhysic=True)
 
-Planet(100, 100, 100, 20, canvas, velocity=[10, 0])
-Planet(200, 200, 100, 20, canvas)
-Planet(300, 300, 100, 20, canvas)
+Star(1000, 1000, 100, 2 * 10 ** 30, canvas)
+
 
 canvas.pack()
 
 
 def game():
     Planets.tick()
+    PlanetPhysics.tick(Planets._planets)
     tk.after(1000 // FPS, game)
 
 game()
 tk.mainloop()
+
+
+# Земля Cолнце 1.5 * 10 ** 11

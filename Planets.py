@@ -12,7 +12,9 @@ class _Telo:
         self.size = [x, y, x + r, y + r]
         self.radius = r
         self.canvas = canvas
-        self.__create_color(color)
+        self.color = color
+
+        self.object = self.canvas.create_oval(self.size, fill=self.color)
 
     def move(self, x, y):
         self.pos[X] += x
@@ -21,25 +23,6 @@ class _Telo:
     def moveTo(self, x, y):
         self.pos[X] = x
         self.pos[Y] = y
-
-
-    def __create_color(self, color):
-        if color == '':
-            r = hex(rnd.randrange(0, 80))[2:]
-            g = hex(rnd.randrange(0, 256))[2:]
-            b = hex(rnd.randrange(0, 256))[2:]
-            if len(r) < 2:
-                r = '0' + r
-            if len(g) < 2:
-                g = '0' + g
-            if len(b) < 2:
-                b = '0' + b
-
-            self.color = f'#{r}{g}{b}'
-        else:
-            self.color = color
-
-        self.object = self.canvas.create_oval(self.size, fill=self.color)
 
 
 class _Fiz:
@@ -62,12 +45,48 @@ class _Fiz:
 
 
 class Planet(_Telo, _Fiz):
-    def __init__(self, x, y, r, mass, canvas:Canvas, color='', velocity=[0, 0], isPhysic=False):
-        _Telo.__init__(self, x, y, r, color, canvas)
+    def __init__(self, x, y, rad, mass, canvas:Canvas, color='', velocity=[0, 0], isPhysic=False):
+        if color == '':
+            r = hex(rnd.randrange(0, 80))[2:]
+            if rnd.randint(1, 2) == 1:
+                g = hex(rnd.randrange(200, 256))[2:]
+            else:
+                g = hex(rnd.randrange(0, 120))[2:]
+            b = hex(256 - int(g, 16))[2:]
+            if len(r) < 2:
+                r = '0' + r
+            if len(g) < 2:
+                g = '0' + g
+            if len(b) < 2:
+                b = '0' + b
+
+            color = f'#{r}{g}{b}'
+
+
+        _Telo.__init__(self, x, y, rad, color, canvas)
         _Fiz.__init__(self, mass, velocity, isPhysic)
 
 
 
+
+class Star(_Telo, _Fiz):
+    def __init__(self, x:int, y:int, rad:int, mass:int, canvas:Canvas, color='', velocity=[0, 0], isPhysic=False):
+        if color == '':
+            r = hex(rnd.randrange(200, 256))[2:]
+            g = hex(rnd.randrange(200, 256))[2:]
+            b = hex(rnd.randrange(0, 100))[2:]
+            if len(r) < 2:
+                r = '0' + r
+            if len(g) < 2:
+                g = '0' + g
+            if len(b) < 2:
+                b = '0' + b
+
+            color = f'#{r}{g}{b}'
+
+
+        _Telo.__init__(self, x, y, rad, color, canvas)
+        _Fiz.__init__(self, mass, velocity, isPhysic)
 
 
 
