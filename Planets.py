@@ -9,7 +9,7 @@ class _Telo:
     def __init__(self, x, y, r, color, canvas:Canvas):
         _planets.append(self)
         self.pos = {X: x, Y: y}
-        self.size = [x, y, x + r, x + y]
+        self.size = [x, y, x + r, y + r]
         self.radius = r
         self.canvas = canvas
         self.__create_color(color)
